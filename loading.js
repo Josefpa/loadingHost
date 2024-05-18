@@ -16,7 +16,6 @@ overlay.style.cssText = `
 
 const svgImage = document.createElement('img');
 svgImage.id = 'svgImage';
-svgImage.src = 'https://cdn.jsdelivr.net/gh/Josefpa/loadingHost@main/spin.svg';
 svgImage.style.cssText = `
     max-width: 100%;
     max-height: 100%;
@@ -26,7 +25,22 @@ svgImage.style.cssText = `
     left: 50%;
     transform: translate(-50%, -50%);
 `;
-svgImage.style.display = 'none';
+
+// Function to detect color scheme and update SVG source
+function updateSvgSource() {
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (prefersDarkScheme) {
+        svgImage.src = 'https://cdn.jsdelivr.net/gh/Josefpa/loadingHost@main/spinWhite.svg';
+    } else {
+        svgImage.src = 'https://cdn.jsdelivr.net/gh/Josefpa/loadingHost@main/spin.svg';
+    }
+}
+
+// Update SVG source based on initial preference
+updateSvgSource();
+
+// Listen for changes in color scheme preference
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener('change', updateSvgSource);
 
 // Append the elements to the body
 document.body.appendChild(overlay);
